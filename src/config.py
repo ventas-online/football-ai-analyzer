@@ -1,0 +1,15 @@
+import os
+from dotenv import load_dotenv
+
+load_dotenv()
+
+FOOTBALL_DATA_API_TOKEN = os.getenv("FOOTBALL_DATA_API_TOKEN", "")
+API_FOOTBALL_KEY = os.getenv("API_FOOTBALL_KEY", "")
+SUPABASE_URL = os.getenv("SUPABASE_URL", "")
+SUPABASE_ANON_KEY = os.getenv("SUPABASE_ANON_KEY", "")
+FOOTBALL_DATA_COMPETITION = os.getenv("FOOTBALL_DATA_COMPETITION", "PL")
+
+MODEL_VERSION = "ensemble-v1"
+MIN_SAMPLE_SIZE = 30
+MIN_PROBABILITY = 0.60
+MIN_EDGE = 0.03
