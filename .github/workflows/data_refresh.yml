@@ -15,14 +15,19 @@ jobs:
           python-version: '3.12'
       - name: Install dependencies
         run: pip install -r requirements.txt
-      - name: Fetch current competition data
+      - name: Fetch historical competition data
         env:
           FOOTBALL_DATA_API_TOKEN: ${{ secrets.FOOTBALL_DATA_API_TOKEN }}
           FOOTBALL_DATA_COMPETITION: PL
+          FOOTBALL_DATA_SEASON: '2025'
         run: python -m src.ingest_football_data
-      - name: Save fetched data as workflow artifact
+      - name: Run walk-forward backtest
+        run: python -m src.run_backtest
+      - name: Save data and backtest report
         uses: actions/upload-artifact@v4
         with:
-          name: football-data-refresh
-          path: data/raw/matches.json
+          name: football-data-backtest
+          path: |
+            data/raw/matches.json
+            data/reports/backtest.json
           retention-days: 7
