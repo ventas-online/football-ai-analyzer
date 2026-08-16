@@ -1,5 +1,6 @@
 import os
 from pathlib import Path
+import json
 import requests
 from dotenv import load_dotenv
 
@@ -24,15 +25,32 @@ def fetch_matches(date_from=None, date_to=None, status=None):
     return r.json()
 
 
+def normalize_matches(data):
+    rows = []
+    for m in data.get("matches", []):
+        score = m.get("score", {}).get("fullTime", {})
+        rows.append({
+            "external_id": str(m["id"]),
+            "utc_date": m.get("utcDate"),
+            "status": m.get("status"),
+            "home_team": m["homeTeam"]["name"],
+            "away_team": m["awayTeam"]["name"],
+            "home_goals": score.get("home"),
+            "away_goals": score.get("away"),
+        })
+    return rows
+
+
 def save_matches_json(data, output="data/raw/matches.json"):
     path = Path(output)
     path.parent.mkdir(parents=True, exist_ok=True)
-    path.write_text(__import__("json").dumps(data, ensure_ascii=False, indent=2), encoding="utf-8")
+    path.write_text(json.dumps(data, ensure_ascii=False, indent=2), encoding="utf-8")
     return path
 
 
 if __name__ == "__main__":
     data = fetch_matches(status="FINISHED")
-    path = save_matches_json(data)
-    print(f"Partidos recibidos: {len(data.get('matches', []))}")
+    rows = normalize_matches(data)
+    path = save_matches_json(rows)
+    print(f"Partidos recibidos: {len(rows)}")
     print(f"Guardado en: {path}")
