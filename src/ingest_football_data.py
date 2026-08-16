@@ -1,0 +1,38 @@
+import os
+from pathlib import Path
+import requests
+from dotenv import load_dotenv
+
+load_dotenv()
+BASE = "https://api.football-data.org/v4"
+COMPETITION = os.getenv("FOOTBALL_DATA_COMPETITION", "PL")
+TOKEN = os.getenv("FOOTBALL_DATA_API_TOKEN", "")
+
+
+def fetch_matches(date_from=None, date_to=None, status=None):
+    if not TOKEN:
+        raise RuntimeError("Falta FOOTBALL_DATA_API_TOKEN en el entorno")
+    params = {}
+    if date_from: params["dateFrom"] = date_from
+    if date_to: params["dateTo"] = date_to
+    if status: params["status"] = status
+    r = requests.get(
+        f"{BASE}/competitions/{COMPETITION}/matches",
+        headers={"X-Auth-Token": TOKEN}, params=params, timeout=30
+    )
+    r.raise_for_status()
+    return r.json()
+
+
+def save_matches_json(data, output="data/raw/matches.json"):
+    path = Path(output)
+    path.parent.mkdir(parents=True, exist_ok=True)
+    path.write_text(__import__("json").dumps(data, ensure_ascii=False, indent=2), encoding="utf-8")
+    return path
+
+
+if __name__ == "__main__":
+    data = fetch_matches(status="FINISHED")
+    path = save_matches_json(data)
+    print(f"Partidos recibidos: {len(data.get('matches', []))}")
+    print(f"Guardado en: {path}")
