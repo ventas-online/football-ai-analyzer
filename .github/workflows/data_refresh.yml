@@ -1,0 +1,28 @@
+name: Refresh football data
+
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: '17 */6 * * *'
+
+jobs:
+  refresh:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Install dependencies
+        run: pip install -r requirements.txt
+      - name: Fetch current competition data
+        env:
+          FOOTBALL_DATA_API_TOKEN: ${{ secrets.FOOTBALL_DATA_API_TOKEN }}
+          FOOTBALL_DATA_COMPETITION: PL
+        run: python -m src.ingest_football_data > /tmp/football_data.txt
+      - name: Save fetch log
+        uses: actions/upload-artifact@v4
+        with:
+          name: football-data-refresh
+          path: /tmp/football_data.txt
+          retention-days: 7
