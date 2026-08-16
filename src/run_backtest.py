@@ -4,7 +4,7 @@ import pandas as pd
 
 from .pipeline import walk_forward_predictions
 from .backtest import evaluate_1x2
-from .market_backtest import evaluate_markets, calibration_bins
+from .market_backtest import evaluate_markets, calibration_bins, rank_signal_filters
 
 
 def main():
@@ -22,6 +22,7 @@ def main():
         "over_25": calibration_bins(rows, "p_over_25", lambda r: r["home_goals"] + r["away_goals"] >= 3),
         "btts_yes": calibration_bins(rows, "p_btts_yes", lambda r: r["home_goals"] >= 1 and r["away_goals"] >= 1),
     }
+    signal_ranking = rank_signal_filters(rows, min_samples=30)
 
     output = {
         "model_version": "ensemble-v2",
@@ -30,6 +31,13 @@ def main():
         "metrics_1x2": report,
         "metrics_markets": markets,
         "calibration": calibration,
+        "signal_ranking": signal_ranking,
+        "signal_policy": {
+            "min_samples": 30,
+            "keep_for_review": "hit_rate >= 0.60 and calibration_gap >= -0.05",
+            "drop": "hit_rate < 0.55 or calibration_gap < -0.10",
+            "warning": "These are out-of-sample research filters, not profitability or guaranteed-win claims."
+        },
         "note": "ROI/edge is intentionally not reported because this data source does not provide bookmaker odds.",
     }
     Path("data/reports").mkdir(parents=True, exist_ok=True)
