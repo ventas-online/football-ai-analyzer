@@ -19,7 +19,7 @@ jobs:
         env:
           FOOTBALL_DATA_API_TOKEN: ${{ secrets.FOOTBALL_DATA_API_TOKEN }}
           FOOTBALL_DATA_COMPETITION: PL
-          FOOTBALL_DATA_SEASONS: '2022,2023,2024,2025'
+          FOOTBALL_DATA_SEASONS: '2021,2022,2023,2024,2025'
         run: python -m src.ingest_multi_season
       - name: Run walk-forward backtest
         run: python -m src.run_backtest
