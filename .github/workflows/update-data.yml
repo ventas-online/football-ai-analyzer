@@ -1,0 +1,51 @@
+name: Update football data
+
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: '17 */6 * * *'
+
+permissions:
+  contents: write
+
+jobs:
+  update:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - run: pip install -r requirements.txt
+      - name: Fetch current finished matches
+        env:
+          FOOTBALL_DATA_API_TOKEN: ${{ secrets.FOOTBALL_DATA_API_TOKEN }}
+          FOOTBALL_DATA_COMPETITION: PL
+        run: |
+          mkdir -p data/raw
+          python - <<'PY'
+          import os, json, requests
+          from datetime import date, timedelta
+          token = os.environ['FOOTBALL_DATA_API_TOKEN']
+          if not token:
+              raise SystemExit('FOOTBALL_DATA_API_TOKEN secret is missing')
+          end = date.today()
+          start = end - timedelta(days=14)
+          r = requests.get(
+              'https://api.football-data.org/v4/competitions/PL/matches',
+              headers={'X-Auth-Token': token},
+              params={'dateFrom': start.isoformat(), 'dateTo': end.isoformat(), 'status': 'FINISHED'},
+              timeout=30,
+          )
+          r.raise_for_status()
+          with open('data/raw/premier_league_recent.json', 'w', encoding='utf-8') as f:
+              json.dump(r.json(), f, ensure_ascii=False, indent=2)
+          print('Downloaded recent finished matches')
+          PY
+      - name: Commit updated data
+        run: |
+          git config user.name 'football-ai-analyzer bot'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add data/raw/premier_league_recent.json
+          git diff --cached --quiet || git commit -m 'Update football match data'
+          git push
