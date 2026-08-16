@@ -10,13 +10,14 @@ COMPETITION = os.getenv("FOOTBALL_DATA_COMPETITION", "PL")
 TOKEN = os.getenv("FOOTBALL_DATA_API_TOKEN", "")
 
 
-def fetch_matches(date_from=None, date_to=None, status=None):
+def fetch_matches(date_from=None, date_to=None, status=None, season=None):
     if not TOKEN:
         raise RuntimeError("Falta FOOTBALL_DATA_API_TOKEN en el entorno")
     params = {}
     if date_from: params["dateFrom"] = date_from
     if date_to: params["dateTo"] = date_to
     if status: params["status"] = status
+    if season is not None: params["season"] = int(season)
     r = requests.get(
         f"{BASE}/competitions/{COMPETITION}/matches",
         headers={"X-Auth-Token": TOKEN}, params=params, timeout=30
@@ -49,7 +50,8 @@ def save_matches_json(data, output="data/raw/matches.json"):
 
 
 if __name__ == "__main__":
-    data = fetch_matches(status="FINISHED")
+    season = os.getenv("FOOTBALL_DATA_SEASON")
+    data = fetch_matches(status="FINISHED", season=season)
     rows = normalize_matches(data)
     path = save_matches_json(rows)
     print(f"Partidos recibidos: {len(rows)}")
