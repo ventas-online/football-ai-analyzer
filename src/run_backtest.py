@@ -7,6 +7,15 @@ from .backtest import evaluate_1x2
 from .market_backtest import evaluate_markets, calibration_bins, rank_signal_filters
 
 
+def _baseline_1x2(frame):
+    """Simple majority-class baseline using only the evaluation sample."""
+    if frame.empty:
+        return {"samples": 0}
+    majority = frame["actual"].mode().iloc[0]
+    return {"samples": len(frame), "majority_class": majority,
+            "accuracy": float((frame["actual"] == majority).mean())}
+
+
 def main():
     path = Path("data/raw/matches.json")
     if not path.exists():
@@ -25,10 +34,11 @@ def main():
     signal_ranking = rank_signal_filters(rows, min_samples=30)
 
     output = {
-        "model_version": "ensemble-v2",
+        "model_version": "ensemble-v3-form-elo-poisson-mc",
         "matches_input": len(matches),
         "predictions_evaluated": len(rows),
         "metrics_1x2": report,
+        "baseline_1x2": _baseline_1x2(frame),
         "metrics_markets": markets,
         "calibration": calibration,
         "signal_ranking": signal_ranking,
@@ -36,14 +46,13 @@ def main():
             "min_samples": 30,
             "keep_for_review": "hit_rate >= 0.60 and calibration_gap >= -0.05",
             "drop": "hit_rate < 0.55 or calibration_gap < -0.10",
-            "warning": "These are out-of-sample research filters, not profitability or guaranteed-win claims."
+            "warning": "Out-of-sample research filters only; no guarantee of winning or profitability."
         },
-        "note": "ROI/edge is intentionally not reported because this data source does not provide bookmaker odds.",
+        "next_required_input_for_roi": "bookmaker odds or a permitted odds feed",
+        "note": "ROI/edge is intentionally not reported without market odds.",
     }
     Path("data/reports").mkdir(parents=True, exist_ok=True)
-    Path("data/reports/backtest.json").write_text(
-        json.dumps(output, ensure_ascii=False, indent=2), encoding="utf-8"
-    )
+    Path("data/reports/backtest.json").write_text(json.dumps(output, ensure_ascii=False, indent=2), encoding="utf-8")
     print(json.dumps(output, ensure_ascii=False, indent=2))
 
 
