@@ -1,5 +1,12 @@
+import numpy as np
 import pandas as pd
-from sklearn.metrics import accuracy_score, log_loss, brier_score_loss
+from sklearn.metrics import accuracy_score, log_loss
+
+
+def multiclass_brier(y, probs):
+    one_hot = np.zeros_like(probs)
+    one_hot[np.arange(len(y)), y] = 1
+    return float(np.mean(np.sum((probs - one_hot) ** 2, axis=1)))
 
 
 def evaluate_1x2(frame: pd.DataFrame):
@@ -17,24 +24,13 @@ def evaluate_1x2(frame: pd.DataFrame):
     predicted = probs.idxmax(axis=1).map({"p_home": "H", "p_draw": "D", "p_away": "A"})
     labels = pd.Categorical(frame["actual"], categories=["H", "D", "A"])
     y = labels.codes
-    p = probs.to_numpy()
-    y_valid = y >= 0
+    valid = y >= 0
+    yv = y[valid]
+    pv = probs.to_numpy()[valid]
 
     return {
-        "samples": int(y_valid.sum()),
-        "accuracy": float(accuracy_score(frame.loc[y_valid, "actual"], predicted[y_valid])),
-        "log_loss": float(log_loss(y[y_valid], p[y_valid], labels=[0, 1, 2])),
-        "brier_multiclass": float(brier_score_brier(y[y_valid], p[y_valid])),
+        "samples": int(valid.sum()),
+        "accuracy": float(accuracy_score(frame.loc[valid, "actual"], predicted[valid])),
+        "log_loss": float(log_loss(yv, pv, labels=[0, 1, 2])),
+        "brier_multiclass": multiclass_brier(yv, pv),
     }
-
-
-def brier_score_brier(y, probs):
-    score = 0.0
-    for i, cls in enumerate(y):
-        target = (y == cls).astype(float)
-        # Multiclass Brier is the mean squared probability-vector error.
-        # Compute per row against its one-hot target.
-    import numpy as np
-    one_hot = np.zeros_like(probs)
-    one_hot[np.arange(len(y)), y] = 1
-    return float(np.mean(np.sum((probs - one_hot) ** 2, axis=1)))
