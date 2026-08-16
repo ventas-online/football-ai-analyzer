@@ -1,0 +1,376 @@
+{
+  "model_version": "ensemble-v3-form-elo-poisson-mc",
+  "evaluation_design": {
+    "method": "strict_walk_forward",
+    "future_leakage": false,
+    "historical_seasons_requested": [
+      2021,
+      2022,
+      2023,
+      2024,
+      2025
+    ],
+    "minimum_signal_sample": 30
+  },
+  "matches_input": 1140,
+  "predictions_evaluated": 1125,
+  "metrics_1x2": {
+    "samples": 1125,
+    "accuracy": 0.5173333333333333,
+    "log_loss": 1.0081348175604068,
+    "brier_multiclass": 0.6008308354563956
+  },
+  "baseline_1x2": {
+    "samples": 1125,
+    "majority_class": "H",
+    "accuracy": 0.4311111111111111
+  },
+  "calendar_period_metrics": {
+    "2023": {
+      "samples": 186,
+      "accuracy": 0.5268817204301075,
+      "log_loss": 0.9876244320213532,
+      "brier_multiclass": 0.5897673441269247
+    },
+    "2024": {
+      "samples": 369,
+      "accuracy": 0.5203252032520326,
+      "log_loss": 1.0064015713574697,
+      "brier_multiclass": 0.596992254846916
+    },
+    "2025": {
+      "samples": 376,
+      "accuracy": 0.5585106382978723,
+      "log_loss": 0.9821473039448022,
+      "brier_multiclass": 0.5834219294716118
+    },
+    "2026": {
+      "samples": 194,
+      "accuracy": 0.422680412371134,
+      "log_loss": 1.0814637076563598,
+      "brier_multiclass": 0.6524802905206134
+    }
+  },
+  "confidence_diagnostics_1x2": [
+    {
+      "range": "0.50-0.60",
+      "samples": 328,
+      "mean_probability": 0.5434680884146341,
+      "hit_rate": 0.6067073170731707
+    },
+    {
+      "range": "0.60-0.70",
+      "samples": 78,
+      "mean_probability": 0.6390635641025642,
+      "hit_rate": 0.782051282051282
+    },
+    {
+      "range": "0.70-0.80",
+      "samples": 6,
+      "mean_probability": 0.7282618333333333,
+      "hit_rate": 0.8333333333333334
+    }
+  ],
+  "metrics_markets": {
+    "samples": 1125,
+    "over_25": {
+      "brier": 0.24536051835674844,
+      "thresholds": {
+        "0.6": {
+          "samples": 477,
+          "hit_rate": 0.5828092243186582
+        },
+        "0.65": {
+          "samples": 160,
+          "hit_rate": 0.7
+        },
+        "0.7": {
+          "samples": 35,
+          "hit_rate": 0.7714285714285715
+        },
+        "0.75": {
+          "samples": 3,
+          "hit_rate": 1.0
+        }
+      }
+    },
+    "btts_yes": {
+      "brier": 0.24412897849160445,
+      "thresholds": {
+        "0.6": {
+          "samples": 548,
+          "hit_rate": 0.6332116788321168
+        },
+        "0.65": {
+          "samples": 149,
+          "hit_rate": 0.6577181208053692
+        },
+        "0.7": {
+          "samples": 19,
+          "hit_rate": 0.5789473684210527
+        },
+        "0.75": {
+          "samples": 2,
+          "hit_rate": 1.0
+        }
+      }
+    }
+  },
+  "calibration": {
+    "over_25": [
+      {
+        "range": "0.0-0.1",
+        "samples": 4,
+        "mean_probability": 0.092036,
+        "observed_rate": 0.75
+      },
+      {
+        "range": "0.1-0.2",
+        "samples": 3,
+        "mean_probability": 0.16168966666666665,
+        "observed_rate": 0.6666666666666666
+      },
+      {
+        "range": "0.2-0.3",
+        "samples": 4,
+        "mean_probability": 0.25862625,
+        "observed_rate": 0.75
+      },
+      {
+        "range": "0.3-0.4",
+        "samples": 16,
+        "mean_probability": 0.361194,
+        "observed_rate": 0.5625
+      },
+      {
+        "range": "0.4-0.5",
+        "samples": 91,
+        "mean_probability": 0.4672095274725275,
+        "observed_rate": 0.5604395604395604
+      },
+      {
+        "range": "0.5-0.6",
+        "samples": 530,
+        "mean_probability": 0.5584461660377359,
+        "observed_rate": 0.6
+      },
+      {
+        "range": "0.6-0.7",
+        "samples": 442,
+        "mean_probability": 0.6367610475113121,
+        "observed_rate": 0.5678733031674208
+      },
+      {
+        "range": "0.7-0.8",
+        "samples": 35,
+        "mean_probability": 0.7263940571428571,
+        "observed_rate": 0.7714285714285715
+      }
+    ],
+    "btts_yes": [
+      {
+        "range": "0.1-0.2",
+        "samples": 6,
+        "mean_probability": 0.15937033333333334,
+        "observed_rate": 0.8333333333333334
+      },
+      {
+        "range": "0.2-0.3",
+        "samples": 5,
+        "mean_probability": 0.26471480000000003,
+        "observed_rate": 0.4
+      },
+      {
+        "range": "0.3-0.4",
+        "samples": 8,
+        "mean_probability": 0.359646625,
+        "observed_rate": 0.25
+      },
+      {
+        "range": "0.4-0.5",
+        "samples": 48,
+        "mean_probability": 0.46738237499999996,
+        "observed_rate": 0.6875
+      },
+      {
+        "range": "0.5-0.6",
+        "samples": 510,
+        "mean_probability": 0.5625517999999999,
+        "observed_rate": 0.5274509803921569
+      },
+      {
+        "range": "0.6-0.7",
+        "samples": 529,
+        "mean_probability": 0.6333560132325141,
+        "observed_rate": 0.6351606805293005
+      },
+      {
+        "range": "0.7-0.8",
+        "samples": 19,
+        "mean_probability": 0.7199799473684211,
+        "observed_rate": 0.5789473684210527
+      }
+    ]
+  },
+  "market_confidence_diagnostics": {
+    "over_25": [
+      {
+        "range": "0.50-0.60",
+        "samples": 530,
+        "mean_probability": 0.558446,
+        "observed_rate": 0.6,
+        "calibration_gap": 0.041554
+      },
+      {
+        "range": "0.60-0.70",
+        "samples": 442,
+        "mean_probability": 0.636761,
+        "observed_rate": 0.567873,
+        "calibration_gap": -0.068888
+      },
+      {
+        "range": "0.70-0.80",
+        "samples": 35,
+        "mean_probability": 0.726394,
+        "observed_rate": 0.771429,
+        "calibration_gap": 0.045035
+      }
+    ],
+    "btts_yes": [
+      {
+        "range": "0.50-0.60",
+        "samples": 510,
+        "mean_probability": 0.562552,
+        "observed_rate": 0.527451,
+        "calibration_gap": -0.035101
+      },
+      {
+        "range": "0.60-0.70",
+        "samples": 529,
+        "mean_probability": 0.633356,
+        "observed_rate": 0.635161,
+        "calibration_gap": 0.001805
+      },
+      {
+        "range": "0.70-0.80",
+        "samples": 19,
+        "mean_probability": 0.71998,
+        "observed_rate": 0.578947,
+        "calibration_gap": -0.141033
+      }
+    ]
+  },
+  "signal_ranking": {
+    "min_samples": 30,
+    "markets": {
+      "over_25": [
+        {
+          "threshold": 0.7,
+          "samples": 35,
+          "mean_probability": 0.726394,
+          "hit_rate": 0.771429,
+          "calibration_gap": 0.045035,
+          "brier": 0.175224,
+          "status": "KEEP_FOR_REVIEW"
+        },
+        {
+          "threshold": 0.65,
+          "samples": 160,
+          "mean_probability": 0.683828,
+          "hit_rate": 0.7,
+          "calibration_gap": 0.016172,
+          "brier": 0.209348,
+          "status": "KEEP_FOR_REVIEW"
+        },
+        {
+          "threshold": 0.75,
+          "samples": 3,
+          "mean_probability": 0.782311,
+          "hit_rate": 1.0,
+          "calibration_gap": 0.217689,
+          "brier": 0.047493,
+          "status": "INSUFFICIENT_SAMPLE"
+        },
+        {
+          "threshold": 0.6,
+          "samples": 477,
+          "mean_probability": 0.643338,
+          "hit_rate": 0.582809,
+          "calibration_gap": -0.060529,
+          "brier": 0.241994,
+          "status": "REVIEW"
+        }
+      ],
+      "btts_yes": [
+        {
+          "threshold": 0.65,
+          "samples": 149,
+          "mean_probability": 0.674635,
+          "hit_rate": 0.657718,
+          "calibration_gap": -0.016917,
+          "brier": 0.226643,
+          "status": "KEEP_FOR_REVIEW"
+        },
+        {
+          "threshold": 0.6,
+          "samples": 548,
+          "mean_probability": 0.636359,
+          "hit_rate": 0.633212,
+          "calibration_gap": -0.003148,
+          "brier": 0.23284,
+          "status": "KEEP_FOR_REVIEW"
+        },
+        {
+          "threshold": 0.75,
+          "samples": 2,
+          "mean_probability": 0.759905,
+          "hit_rate": 1.0,
+          "calibration_gap": 0.240095,
+          "brier": 0.05768,
+          "status": "INSUFFICIENT_SAMPLE"
+        },
+        {
+          "threshold": 0.7,
+          "samples": 19,
+          "mean_probability": 0.71998,
+          "hit_rate": 0.578947,
+          "calibration_gap": -0.141033,
+          "brier": 0.263307,
+          "status": "INSUFFICIENT_SAMPLE"
+        }
+      ]
+    }
+  },
+  "value_analysis": {
+    "odds_file_present": false,
+    "odds_rows_loaded": 0,
+    "signals": [
+      {
+        "n": 1125,
+        "wins": 664,
+        "profit": 0.0,
+        "bets": 1125,
+        "market": "over_25",
+        "status": "ODDS_REQUIRED",
+        "hit_rate": 0.5902222222222222,
+        "roi": 0.0
+      },
+      {
+        "n": 1125,
+        "wins": 658,
+        "profit": 0.0,
+        "bets": 1125,
+        "market": "btts_yes",
+        "status": "ODDS_REQUIRED",
+        "hit_rate": 0.5848888888888889,
+        "roi": 0.0
+      }
+    ]
+  },
+  "signal_policy": {
+    "min_samples": 30,
+    "keep_for_review": "hit_rate >= 0.60 and calibration_gap >= -0.05",
+    "drop": "hit_rate < 0.55 or calibration_gap < -0.10"
+  },
+  "note": "ROI/EV are reported only where real historical odds exist; missing odds produce ODDS_REQUIRED."
+}
