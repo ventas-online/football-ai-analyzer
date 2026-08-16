@@ -5,10 +5,10 @@
 <title>Football AI Analyzer</title><link rel="stylesheet" href="style.css">
 </head>
 <body><main class="app">
-<header><div><span class="eyebrow">PERSONAL ANALYTICS</span><h1>⚽ Football AI Analyzer</h1><p>Motor estadístico personal · sin garantías de resultado</p></div><span class="status">● MODELO ACTIVO</span></header>
+<header><div><span class="eyebrow">PERSONAL ANALYTICS</span><h1>⚽ Football AI Analyzer</h1><p>Motor estadístico personal · sin garantías de resultado</p></div><span class="status">● MOTOR V1</span></header>
 <section class="grid">
-<article class="card hero"><span class="tag">MOTOR V1</span><h2>Poisson + ELO + Monte Carlo</h2><p>La primera versión combina modelos independientes y normaliza las probabilidades del mercado 1X2.</p><div class="metrics"><div><b>3</b><small>modelos</small></div><div><b>7</b><small>mercados</small></div><div><b>0</b><small>predicciones</small></div></div></article>
-<article class="card"><h3>Estado</h3><p>🟢 Motor estadístico preparado</p><p>🟡 Datos reales: pendiente de conexión</p><p>🟡 Backtesting: pendiente</p></article>
-<article class="card"><h3>Próximo objetivo</h3><p>Importar resultados históricos, entrenar parámetros por competición y medir rendimiento fuera de muestra.</p></article>
+<article class="card hero"><span class="tag">ENSEMBLE</span><h2>Poisson + ELO + Monte Carlo</h2><p>Las probabilidades se generan con modelos independientes y se evalúan fuera de muestra.</p><div class="metrics"><div><b>3</b><small>modelos</small></div><div><b>7</b><small>mercados</small></div><div><b id="count">0</b><small>señales demo</small></div></div></article>
+<article class="card"><h3>Señales</h3><div id="signals"></div></article>
+<article class="card"><h3>Metodología</h3><p>Walk-forward: cada predicción utiliza solamente información disponible antes del partido objetivo.</p><p>Una señal no es una garantía. El sistema debe superar pruebas históricas antes de considerarse útil.</p></article>
 </section><footer>Uso personal. Las probabilidades son estimaciones estadísticas y no garantizan resultados.</footer>
-</main></body></html>
+</main><script src="app.js"></script></body></html>
