@@ -5,6 +5,9 @@ on:
   schedule:
     - cron: '17 */6 * * *'
 
+permissions:
+  contents: write
+
 jobs:
   refresh:
     runs-on: ubuntu-latest
@@ -23,6 +26,13 @@ jobs:
         run: python -m src.ingest_multi_season
       - name: Run walk-forward backtest
         run: python -m src.run_backtest
+      - name: Publish latest report for dashboard
+        run: |
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add data/reports/backtest.json
+          git diff --cached --quiet || git commit -m 'chore: publish latest backtest report'
+          git push
       - name: Save data and backtest report
         uses: actions/upload-artifact@v4
         with:
