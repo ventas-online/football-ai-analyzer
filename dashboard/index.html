@@ -1,14 +1,6 @@
 <!doctype html>
-<html lang="es">
-<head>
-<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
-<title>Football AI Analyzer</title><link rel="stylesheet" href="style.css">
-</head>
-<body><main class="app">
-<header><div><span class="eyebrow">PERSONAL ANALYTICS</span><h1>⚽ Football AI Analyzer</h1><p>Motor estadístico personal · sin garantías de resultado</p></div><span class="status">● MOTOR V1</span></header>
-<section class="grid">
-<article class="card hero"><span class="tag">ENSEMBLE</span><h2>Poisson + ELO + Monte Carlo</h2><p>Las probabilidades se generan con modelos independientes y se evalúan fuera de muestra.</p><div class="metrics"><div><b>3</b><small>modelos</small></div><div><b>7</b><small>mercados</small></div><div><b id="count">0</b><small>señales demo</small></div></div></article>
-<article class="card"><h3>Señales</h3><div id="signals"></div></article>
-<article class="card"><h3>Metodología</h3><p>Walk-forward: cada predicción utiliza solamente información disponible antes del partido objetivo.</p><p>Una señal no es una garantía. El sistema debe superar pruebas históricas antes de considerarse útil.</p></article>
-</section><footer>Uso personal. Las probabilidades son estimaciones estadísticas y no garantizan resultados.</footer>
-</main><script src="app.js"></script></body></html>
+<html lang="es"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Football AI Analyzer</title><link rel="stylesheet" href="style.css"></head>
+<body><main class="app"><header><div><span class="eyebrow">PERSONAL ANALYTICS</span><h1>⚽ Football AI Analyzer</h1><p>Motor estadístico personal · sin garantías de resultado</p></div><span class="status" id="version">CARGANDO</span></header>
+<section class="grid"><article class="card hero"><span class="tag">ENSEMBLE V3</span><h2>Poisson + ELO + Monte Carlo</h2><p>Probabilidades evaluadas mediante walk-forward y datos históricos disponibles.</p><div class="metrics"><div><b id="accuracy">—</b><small>acierto modelo</small></div><div><b id="baseline">—</b><small>baseline</small></div><div><b id="count">0</b><small>predicciones</small></div></div></article>
+<article class="card"><h3>Señales de valor</h3><p class="muted">Solo aparecen cuando existen cuotas reales y el EV supera el filtro configurado.</p><div id="signals"><p>Cargando informe…</p></div><p>Cuotas históricas cargadas: <strong id="odds">0</strong></p></article>
+<article class="card"><h3>Metodología</h3><p>Walk-forward estricto: cada predicción utiliza únicamente información disponible antes del partido.</p><p>El sistema separa probabilidad, cuota justa y valor esperado. Sin cuota real no se declara valor ni ROI.</p></article></section><footer>Uso personal. Las probabilidades son estimaciones estadísticas y no garantizan resultados.</footer></main><script src="app.js"></script></body></html>
